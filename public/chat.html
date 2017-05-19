@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <title>A Simple Chat with contacts</title>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+    <link href="./styles/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet"> -->
+    <link href="./styles/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="./styles/style.css" type="text/css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+  <div class="container-fluid" ng-controller='AppCtrl'>
+
+    <div class="row" ng-hide="initName != null">
+      <div class="col-sm-offset-2 col-sm-8 text-center">
+        <div class="white-box">
+          <span class="login-txt">Enter your name:</span>
+          <select ng-model="connect.room">
+            <option ng-repeat="contact in contacts" value="{{contact.room}}">
+              {{contact.name}}
+            </option>
+          </select>
+          <br><br>
+          <button type="submit " id="join " ng-click="init(connect) " class="btn btn-default ">Submit</button>
+          <br><br>
+          <small>Simple login tracker (Names are hard coded)</small>
+        </div><!--White-box end-->
+      </div><!--col-sm-* end-->
+    </div><!--row end-->
+
+
+    <div class="row no-padd ng-hide" ng-hide="initName == null">
+      <div class="col-sm-3">
+
+        <div class="grey-head1 bdr-right">
+          <img src="images/1.png" alt="my-profile-pic" class="profile-img">
+          <span class="loggedin-name">Hi {{initName}}</span>
+        </div><!--grey-head end-->
+
+        <div class="grey-head2 bdr-right">
+          <div class="search-bar">
+            <label class="control-label sr-only" for="inputGroupSuccess4">Input group with success</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+              <input type="text" class="form-control search-bar-txt hide-foo-nav" placeholder="Search">
+            </div><!--input-group end-->
+          </div><!--search bar end-->
+        </div><!--grey-head end-->
+
+
+        <div class="white-box2 bdr-right chat-scroll">
+          <!-- NG:Repeat contacts -->
+          <div ng-repeat='contact in contacts'>
+            <a ng-click=joinRoom(contact.room) ng-hide="contact.name == initName">
+              <div class="chat-person">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <img src="images/1.png" alt="" class="chat-img">
+                  </div><!--col-sm-* end-->
+                  <div class="col-sm-6">
+                    <div class="chat-name-left" ng-model="join.username">{{contact.name}}</div>
+                    <div class="chat-msg-left" ng-model="join.room">{{contact.room}}</div>
+                  </div><!--col-sm-* end-->
+                  <div class="col-sm-3 text-right">
+                    <div class="chat-time-left">9:30 PM</div>
+                    <!-- <span class="badge chat-badge">4</span> -->
+                  </div><!--col-sm-* end-->
+                </div><!--row end-->
+              </div><!--chat-person-->
+            </a>
+            <hr class="chat-hr">
+          </div>
+          <!-- NG:Repeat contacts end -->
+        </div><!--white box end-->
+      </div><!--col-sm-* end-->
+
+
+      <div class="col-sm-9" ng-hide="chattingWith == null">
+        <div class="grey-head1 bdr-bottom">
+          <img src="images/1.png" class="profile-img">
+          <span class="chat-box-name">
+            {{currentUser}}
+          </span>
+        </div><!--grey-head end-->
+
+        <div class="white-chat-box chat-scroll" scroll="users">
+
+          <div ng-repeat="history in history" class="ng-scope">
+						<div ng-if="history">
+							<div ng-class="{'chat-from' : (history.type == 'from'), 'chat-to' : (history.type == 'to')}">
+                <div class="ng-binding ">
+                  {{history.message}}
+                  <br>
+                  <span class="chat-time">{{history.time | date: 'h:mma'}}</span>
+								</div>
+							</div><!--ng-class:chat-from / to-->
+						</div><!--ng-if:USER-->
+					</div><!--ng-repeat end-->
+
+          <div ng-repeat="user in users" class="ng-scope">
+						<div ng-if="user">
+							<div ng-class="{'chat-from' : (user.username != currentUser), 'chat-to' : (user.username == currentUser)}">
+                <div class="ng-binding ">
+                  <!-- <strong>{{user.username}}</strong> :  -->
+                  {{user.message}}
+                  <br>
+                  <span class="chat-time">{{user.date | date: 'h:mma'}}</span>
+								</div>
+							</div><!--ng-class:chat-from / to-->
+						</div><!--ng-if:USER-->
+					</div><!--ng-repeat end-->
+
+        </div><!--white box end-->
+
+        <div class="send-div">
+          <form ng-submit="doPost(message)">
+            <input type="text" class="form-control chat-txt-field" placeholder="Type a message" ng-model="message">
+          </form>
+        </div><!--send-div end-->
+      </div><!--col-sm-* end-->
+
+      <div class="col-sm-8 text-center" ng-hide="chattingWith != null">
+        <img src="images/poster.png" alt="splalsh-poster" class="poster1">
+        <br>
+        <br>
+        <div class="demo-hd1">A Simple Chat with predefined contacts.</div>
+        <small>(Open in two browsers with different initial names to test out the feature)</small>
+        <br>
+        <small>(You can fetch the contacts from a DB)</small>
+      </div><!--Initial right chat screen end-->
+
+
+    </div><!--row end-->
+
+  </div><!--container end-->
+
+  <!--JS-->
+  <script src="/socket.io/socket.io.js "></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript " src="./scripts/angular.min.js "></script>
+  <script type="text/javascript " src="./scripts/ash.js "></script>
+</body>
+</html>
