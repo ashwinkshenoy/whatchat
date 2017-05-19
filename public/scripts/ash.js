@@ -193,11 +193,20 @@ app.controller('AppCtrl', function ($scope, socket) {
 
   // Menu
   $scope.menu = function() {
-    $('.mob-contact').toggle();
-    $('.overlay').toggle();
-    console.log('opened');
+    var el = $('.mob-contact');
+    if (el.hasClass('toggled')){
+      $('.mob-contact').removeClass('toggled');
+      $('.overlay').css('display','none');
+      $('body').css('overflow','auto');
+    } else {
+      $('.mob-contact').addClass('toggled');
+      $('.overlay').css('display','block');
+      $('body').css('overflow','hidden');
+    }
   }
+
 });
+// Controller end
 
 
 /* Services */

@@ -332,6 +332,7 @@ small {
   font-size: 30px;
   left: 20px;
   display: none;
+  cursor: pointer;
 }
 .menu-close {
   font-size: 25px;
@@ -340,6 +341,7 @@ small {
   left: 260px;
   color: #607D8B;
   display: none;
+  cursor: pointer;
 }
 .menu-chat {
   font-size: 25px;
@@ -348,18 +350,22 @@ small {
   position: relative;
   margin-right: 20px;
   display: none;
-}
-.overlay {
-  background: rgba(0, 0, 0, 0.24);
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  display: none;
+  cursor: pointer;
 }
 @media screen and (max-width: 992px) {
+  .overlay {
+    background: rgba(0, 0, 0, 0.24);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: none;
+  }
+  .toggled {
+    display: block !important;
+  }
   .menu-close,
   .menu-splash,
   .menu-chat {
