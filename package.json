@@ -1,16 +1,12 @@
 {
   "name": "My Chat",
-  "version": "1.0.0",
-  "description": "A simple WhatsApp style chat using Angular and Socket in Node",
-  "main": "app.js",
-  "dependencies": {
-    "express": "^4.13.4",
-    "socket.io": "^1.4.6"
-  },
-  "devDependencies": {},
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Ashwin K Shenoy",
-  "license": "ISC"
+  "dependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.6"
+  }
 }
