@@ -9,11 +9,11 @@ var port = app.get('port');
 app.use(express.static('public'));
 
 server.listen(port, function () {
-    console.log("Server listening on: http://localhost:%s", port);
+  console.log("Server listening on: http://localhost:%s", port);
 });
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/public/chat.html');
+  res.sendFile(__dirname + '/public/chat.html');
 });
 
 // app.get('/chat', function (req, res) {
