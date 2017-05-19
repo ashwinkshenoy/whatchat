@@ -55,10 +55,12 @@ app.controller('AppCtrl', function ($scope, socket) {
   ];
 
   var history = [];
+  var contactHistory = [];
   var type;
   $scope.users = [];
   $scope.currentUser = '';
   socket.on('connect', function () { });
+
 
 
   // Initialization
@@ -71,14 +73,43 @@ app.controller('AppCtrl', function ($scope, socket) {
         $scope.initName = $scope.contacts[i].name;
       }
     }
+
+    // Contacts - last message and time
+    // var lastContact = [];
+    // var lastContObj = {}
+    // for(var i=0; i < $scope.contacts.length; i++) {
+    //   var myroom = [];
+    //   if($scope.initRoom != $scope.contacts[i].room){
+    //     myroom.push($scope.initRoom);
+    //     myroom.push($scope.contacts[i].room);
+    //     // Sort myroom
+    //     myroom.sort(function(a, b){return a - b});
+    //     // Join myroom
+    //     var newRoom = myroom.join("");
+    //     lastContact.push(newRoom)
+    //   }
+    // }
+    // console.log(lastContact);
+
+    // Get message
+    // for(var i=0; i < $scope.contacts.length; i++) {
+    //   if($scope.initRoom != $scope.contacts[i].room){
+    //     console.log(lastContact[i]);
+    //     if(localStorage.getItem(lastContact[i]) != null){
+    //       var data = JSON.parse(localStorage.getItem(lastContact[i]));
+    //       var b = {
+    //         'message': data[data.length-1].message,
+    //         'time': data[data.length-1].time
+    //       };
+    //       console.log(b);
+    //       $scope.contacts[i]['lastinteraction'] = b;
+    //       // console.log($scope.contacts);
+    //     }
+    //   }
+    // }
+
   }
 
-  // for(var i=0; i<$scope.contacts.length; i++) {
-  //   if($scope.contacts[i].room == data) {
-  //     $scope.initName = $scope.contacts[i].name;
-  //     $scope.initRoom = $scope.contacts[i].room;
-  //   }
-  // }
 
   // on Update
   // on send/receive chat
@@ -87,7 +118,6 @@ app.controller('AppCtrl', function ($scope, socket) {
     user.username = username;
     user.message = data;
     user.date = new Date().getTime();
-    user.image = 'http://dummyimage.com/250x250/000/fff&text=' + username.charAt(0).toUpperCase();
     $scope.users.push(user);
 
     if(user.username != $scope.currentUser) {
@@ -122,6 +152,7 @@ app.controller('AppCtrl', function ($scope, socket) {
   // $scope.currentUser
   // $scope.history
   $scope.joinRoom = function (data) {
+    history = [];
     var mydata = {};
     $scope.users = [];
     var myroom = [];
@@ -150,9 +181,22 @@ app.controller('AppCtrl', function ($scope, socket) {
   $scope.doPost = function (message) {
     socket.emit('sendchat', message);
     $scope.message = '';
+    $('.chat-txt-field').val('');
   }
 
   // $scope.history = JSON.parse(localStorage.getItem($scope.roomtotal));
+
+  // $('.menu-splash').click(function(){
+  //   $('.mob-contact').show();
+  //   console.log('opened');
+  // });
+
+  // Menu
+  $scope.menu = function() {
+    $('.mob-contact').toggle();
+    $('.overlay').toggle();
+    console.log('opened');
+  }
 });
 
 

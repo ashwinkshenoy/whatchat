@@ -8,6 +8,21 @@ body {
   height: 100vh;
 }
 
+.container-fluid {
+  padding: 0;
+}
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.ng-hide {
+  display: none;
+}
+
+.img-responsive {
+  margin: 0 auto;
+}
+
 #userList {
   display: none;
 }
@@ -18,13 +33,6 @@ body {
   width: 100%;
   text-align: center;
   top: 40%;
-}
-.container-fluid {
-  padding: 0;
-}
-.row {
-  margin-left: 0;
-  margin-right: 0;
 }
 /*General end*/
 
@@ -94,6 +102,8 @@ body {
   border-left: 0;
   box-shadow: none;
   height: 38px;
+  border-color: #ccc;
+  padding-left: 0;
 }
 .grey-head2 {
   background: #fbfbfb;
@@ -103,9 +113,11 @@ body {
 }
 
 /*Spash area*/
+.splash-space {
+  margin-top: 10vh;
+}
 .poster1 {
   align-content: center;
-  margin-top: 10vh;
 }
 .demo-hd1 {
   font-size: 30px;
@@ -311,3 +323,70 @@ small {
   width: 8px;
 }
 /*Custom scroll end*/
+
+
+/*Mobile*/
+.menu-splash {
+  position: fixed;
+  top: 15px;
+  font-size: 30px;
+  left: 20px;
+  display: none;
+}
+.menu-close {
+  font-size: 25px;
+  position: absolute;
+  top: 18px;
+  left: 260px;
+  color: #607D8B;
+  display: none;
+}
+.menu-chat {
+  font-size: 25px;
+  top: 5px;
+  left: 8px;
+  position: relative;
+  margin-right: 20px;
+  display: none;
+}
+.overlay {
+  background: rgba(0, 0, 0, 0.24);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: none;
+}
+@media screen and (max-width: 992px) {
+  .menu-close,
+  .menu-splash,
+  .menu-chat {
+    display: inline-block;
+  }
+  .mob-contact {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+  }
+  .chat-from,
+  .chat-to {
+    width: 70%;
+  }
+  .mob-contact .white-box2 {
+    width: 300px;
+  }
+  .mob-splash,
+  .mob-chat,
+  .mob-chat .white-chat-box {
+    width: 100%;
+  }
+  .mob-chat .send-div {
+    left: 0;
+  }
+}
+/*Mobile end*/
