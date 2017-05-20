@@ -162,6 +162,7 @@ small {
 
 .chat-person {
   padding: 15px 10px;
+  border-bottom: solid 1px #eee;
 }
 
 .chat-person:hover {
