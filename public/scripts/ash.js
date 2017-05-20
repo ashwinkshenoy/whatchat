@@ -216,9 +216,11 @@ app.controller('AppCtrl', function ($scope, socket) {
 
   // on Post send chat
   $scope.doPost = function (message) {
-    socket.emit('sendchat', message);
-    $scope.message = '';
-    $('.chat-txt-field').val('');
+    if(message != null) {
+      socket.emit('sendchat', message);
+      $scope.message = '';
+      $('.chat-txt-field').val('');
+    }
   }
 
   // Menu
