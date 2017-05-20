@@ -165,6 +165,7 @@ app.controller('AppCtrl', function ($scope, socket) {
     var mydata = {};
     $scope.users = [];
     var myroom = [];
+    $scope.selected = data;
     for(var i=0; i<$scope.contacts.length; i++) {
       if($scope.contacts[i].id == data) {
         myroom.push($scope.initRoom);

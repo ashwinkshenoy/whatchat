@@ -8,7 +8,6 @@
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet"> -->
     <link href="./styles/font-awesome.min.css" type="text/css" rel="stylesheet">
     <link href="./styles/style.css" type="text/css" rel="stylesheet">
-    <link href="./styles/nganimate.css" type="text/css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -64,8 +63,8 @@
         <div class="white-box2 bdr-right chat-scroll">
           <!-- NG:Repeat contacts -->
           <div ng-repeat='contact in contacts | filter:search'>
-            <a ng-click=joinRoom(contact.id) ng-hide="contact.name == initName" class="slide-left" ng-class="animation">
-              <div class="chat-person">
+            <a ng-click="joinRoom(contact.id)" ng-hide="contact.name == initName">
+              <div class="chat-person" ng-class="{'room-active': selected == contact.id}">
                 <div class="row">
                   <div class="col-xs-3">
                     <img src="images/1.png" alt="" class="chat-img">
@@ -157,7 +156,6 @@
   <script src="/socket.io/socket.io.js "></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <script type="text/javascript " src="./scripts/angular.min.js "></script>
-  <script type="text/javascript " src="./scripts/nganimate.js "></script>
   <script type="text/javascript " src="./scripts/ash.js "></script>
 </body>
 </html>
