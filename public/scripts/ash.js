@@ -127,6 +127,15 @@ app.controller('AppCtrl', function ($scope, socket) {
       } else {
         type = 'to';
       }
+
+      // history = [];
+      // if(localStorage.getItem(room) != null){
+      //   var pastHist = JSON.parse(localStorage.getItem(room));
+      //   for(var j=0; j<pastHist.length; j++) {
+      //     history.push(pastHist[j]);
+      //   }
+      // }
+
       var b = {
         'message': data,
         'date': user.date,
@@ -135,6 +144,13 @@ app.controller('AppCtrl', function ($scope, socket) {
       history.push(b);
       localStorage.setItem($scope.roomtotal, JSON.stringify(history));
     } else {
+      history = [];
+      if(localStorage.getItem(room) != null){
+        var pastHist = JSON.parse(localStorage.getItem(room));
+        for(var j=0; j<pastHist.length; j++) {
+          history.push(pastHist[j]);
+        }
+      }
       var b = {
         'message': data,
         'date': user.date,
