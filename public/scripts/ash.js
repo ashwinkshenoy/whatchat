@@ -22,35 +22,35 @@ app.controller('AppCtrl', function ($scope, socket) {
   $scope.contacts = [
     {
       'name': 'Neeraj',
-      'room': 1234
+      'id': 1234
     },
     {
       'name': 'Punith',
-      'room': 5678
+      'id': 5678
     },
     {
       'name': 'Ashwin',
-      'room': 9876
+      'id': 9876
     },
     {
       'name': 'Derek',
-      'room': 5432
+      'id': 5432
     },
     {
       'name': 'Prashanth',
-      'room': 1012
+      'id': 1012
     },
     {
       'name': 'Akhilesh',
-      'room': 3456
+      'id': 3456
     },
     {
       'name': 'Rajath',
-      'room': 7890
+      'id': 7890
     },
     {
       'name': 'Vikram',
-      'room': 1111
+      'id': 1111
     }
   ];
 
@@ -67,12 +67,13 @@ app.controller('AppCtrl', function ($scope, socket) {
   // $scope.initName
   // $scope.initRoom
   $scope.init = function (data) {
-    $scope.initRoom = parseInt(data.room);
+    $scope.initRoom = parseInt(data.id);
     for(var i=0; i<$scope.contacts.length; i++) {
-      if($scope.contacts[i].room == $scope.initRoom) {
+      if($scope.contacts[i].id == $scope.initRoom) {
         $scope.initName = $scope.contacts[i].name;
       }
     }
+    // $('#main-div').removeClass('hide');
 
     // Contacts - last message and time
     // var lastContact = [];
@@ -113,26 +114,35 @@ app.controller('AppCtrl', function ($scope, socket) {
 
   // on Update
   // on send/receive chat
-  socket.on('updatechat', function (username, data) {
+  socket.on('updatechat', function (username, data, room) {
     var user = {};
-    user.username = username;
-    user.message = data;
     user.date = new Date().getTime();
-    $scope.users.push(user);
-
-    if(user.username != $scope.currentUser) {
-      type = 'from';
+    console.log($scope.roomtotal);
+    if(room == $scope.roomtotal) {
+      user.username = username;
+      user.message = data;
+      $scope.users.push(user);
+      if(user.username != $scope.currentUser) {
+        type = 'from';
+      } else {
+        type = 'to';
+      }
+      var b = {
+        'message': data,
+        'date': user.date,
+        'type': type
+      };
+      history.push(b);
+      localStorage.setItem($scope.roomtotal, JSON.stringify(history));
     } else {
-      type = 'to';
+      var b = {
+        'message': data,
+        'date': user.date,
+        'type': 'from'
+      };
+      history.push(b);
+      localStorage.setItem(room, JSON.stringify(history));
     }
-
-    var b = {
-      'message': data,
-      'time': user.date,
-      'type': type
-    };
-    history.push(b);
-    localStorage.setItem($scope.roomtotal, JSON.stringify(history));
   });
 
 
@@ -146,7 +156,6 @@ app.controller('AppCtrl', function ($scope, socket) {
   //   socket.emit('createroom', data);
   // }
 
-
   // on Joining Room
   // $scope.currentUser
   // $scope.currentUser
@@ -157,7 +166,7 @@ app.controller('AppCtrl', function ($scope, socket) {
     $scope.users = [];
     var myroom = [];
     for(var i=0; i<$scope.contacts.length; i++) {
-      if($scope.contacts[i].room == data) {
+      if($scope.contacts[i].id == data) {
         myroom.push($scope.initRoom);
         myroom.push(data);
         // Sort myroom
@@ -168,6 +177,14 @@ app.controller('AppCtrl', function ($scope, socket) {
         mydata.username = $scope.contacts[i].name;
         mydata.room = newRoom;
         $scope.roomtotal = newRoom;
+        // Push past History
+        if(localStorage.getItem($scope.roomtotal) != null){
+          var pastHist = JSON.parse(localStorage.getItem($scope.roomtotal));
+          for(var j=0; j<pastHist.length; j++) {
+            history.push(pastHist[j]);
+          }
+        }
+        // set $scope.history
         $scope.history = JSON.parse(localStorage.getItem($scope.roomtotal));
       }
     }
@@ -183,13 +200,6 @@ app.controller('AppCtrl', function ($scope, socket) {
     $scope.message = '';
     $('.chat-txt-field').val('');
   }
-
-  // $scope.history = JSON.parse(localStorage.getItem($scope.roomtotal));
-
-  // $('.menu-splash').click(function(){
-  //   $('.mob-contact').show();
-  //   console.log('opened');
-  // });
 
   // Menu
   $scope.menu = function() {

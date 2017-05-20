@@ -16,53 +16,43 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/chat.html');
 });
 
-// app.get('/chat', function (req, res) {
-//     res.sendFile(__dirname + '/public/chat.html');
-// });
-
 var usernames = {};
 var rooms = [];
-// var rooms = [1234, 5678, 9876];
 
 io.sockets.on('connection', function (socket) {
 
-    socket.on('adduser', function (data) {
-        var username = data.username;
-        var room = data.room;
+  socket.on('adduser', function (data) {
+    var username = data.username;
+    var room = data.room;
 
-        if (rooms.indexOf(room) != -1) {
-            socket.username = username;
-            socket.room = room;
-            usernames[username] = username;
-            socket.join(room);
-            console.log('Joined room: '+ room);
-            // socket.emit('updatechat', 'SERVER', 'You are connected. Start chatting');
-            // socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
-        } else {
-            socket.emit('updatechat', 'SERVER', 'Please enter valid code.');
-        }
-    });
+    if (rooms.indexOf(room) != -1) {
+      socket.username = username;
+      socket.room = room;
+      usernames[username] = username;
+      socket.join(room);
+      // console.log('Joined room: '+ room);
+    } else {
+      socket.emit('updatechat', 'SERVER', 'Please enter valid code.');
+    }
+  });
 
-    socket.on('createroom', function (data) {
-      // console.log(data);
-      var new_room = data.room;
-      rooms.push(new_room);
-      data.room = new_room;
-      console.log('Room Created: '+new_room);
-      // socket.emit('updatechat', 'SERVER', 'Your room is ready, invite someone using this ID:' + new_room);
-      socket.emit('roomcreated', data);
-    });
+  socket.on('createroom', function (data) {
+    var new_room = data.room;
+    rooms.push(new_room);
+    data.room = new_room;
+    // console.log('Room Created: '+new_room);
+    socket.emit('roomcreated', data);
+  });
 
-    socket.on('sendchat', function (data) {
-        io.sockets.in(socket.room).emit('updatechat', socket.username, data);
-    });
+  socket.on('sendchat', function (data) {
+    io.sockets.in(socket.room).emit('updatechat', socket.username, data, socket.room);
+  });
 
-    socket.on('disconnect', function () {
-        delete usernames[socket.username];
-        io.sockets.emit('updateusers', usernames);
-        if (socket.username !== undefined) {
-            // socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-            socket.leave(socket.room);
-        }
-    });
+  socket.on('disconnect', function () {
+    delete usernames[socket.username];
+    io.sockets.emit('updateusers', usernames);
+    if (socket.username !== undefined) {
+      socket.leave(socket.room);
+    }
+  });
 });

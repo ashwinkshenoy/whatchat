@@ -26,10 +26,8 @@
       <div class="col-sm-offset-2 col-sm-8 text-center">
         <div class="white-box">
           <span class="login-txt">Enter your name:</span>
-          <select ng-model="connect.room">
-            <option ng-repeat="contact in contacts" value="{{contact.room}}">
-              {{contact.name}}
-            </option>
+          <select ng-model="connect.id">
+            <option ng-repeat="contact in contacts" ng-value="contact.id" ng-bind="contact.name"></option>
           </select>
           <br><br>
           <button type="submit " id="join " ng-click="init(connect) " class="btn btn-default ">Submit</button>
@@ -41,7 +39,7 @@
 
 
     <!-- <div class="row no-padd" ng-show="initName != null"> -->
-    <div class="row no-padd" ng-if="initName">
+    <div class="row no-padd main-div" ng-cloak ng-if="initName" >
       <div class="col-sm-3 mob-contact">
 
         <div class="grey-head1 bdr-right">
@@ -66,7 +64,7 @@
         <div class="white-box2 bdr-right chat-scroll">
           <!-- NG:Repeat contacts -->
           <div ng-repeat='contact in contacts | filter:search'>
-            <a ng-click=joinRoom(contact.room) ng-hide="contact.name == initName" class="slide-left" ng-class="animation">
+            <a ng-click=joinRoom(contact.id) ng-hide="contact.name == initName" class="slide-left" ng-class="animation">
               <div class="chat-person">
                 <div class="row">
                   <div class="col-xs-3">
@@ -95,9 +93,7 @@
         <div class="grey-head1 bdr-bottom">
           <i class="fa fa-bars menu-chat" ng-click="menu()"></i>
           <img src="images/1.png" class="profile-img">
-          <span class="chat-box-name">
-            {{currentUser}}
-          </span>
+          <span class="chat-box-name" ng-bind="currentUser"></span>
         </div><!--grey-head end-->
 
         <div class="white-chat-box chat-scroll" scroll="users">
@@ -105,10 +101,10 @@
           <div ng-repeat="history in history" class="ng-scope">
 						<div ng-if="history">
 							<div ng-class="{'chat-from' : (history.type == 'from'), 'chat-to' : (history.type == 'to')}">
-                <div class="ng-binding ">
-                  {{history.message}}
+                <div class="ng-binding">
+                  <span ng-bind="history.message"></span>
                   <br>
-                  <span class="chat-time">{{history.time | date: 'h:mma'}}</span>
+                  <span class="chat-time" ng-bind=" history.date | date: 'h:mma' "></span>
 								</div>
 							</div><!--ng-class:chat-from / to-->
 						</div><!--ng-if:USER-->
@@ -119,9 +115,9 @@
 							<div ng-class="{'chat-from' : (user.username != currentUser), 'chat-to' : (user.username == currentUser)}">
                 <div class="ng-binding ">
                   <!-- <strong>{{user.username}}</strong> :  -->
-                  {{user.message}}
+                  <span ng-bind="user.message"></span>
                   <br>
-                  <span class="chat-time">{{user.date | date: 'h:mma'}}</span>
+                  <span class="chat-time" ng-bind=" user.date | date: 'h:mma' "></span>
 								</div>
 							</div><!--ng-class:chat-from / to-->
 						</div><!--ng-if:USER-->
@@ -137,15 +133,17 @@
       </div><!--col-sm-* end-->
 
       <div class="col-sm-8 text-center mob-splash" ng-hide="chattingWith != null">
-        <i class="fa fa-bars menu-splash" ng-click="menu()"></i>
-        <div class="splash-space"></div>
-        <img src="images/poster.png" alt="splash-poster" class="poster1 img-responsive">
-        <br>
-        <br>
-        <div class="demo-hd1">A Simple Chat with predefined contacts.</div>
-        <small>(Open in two browsers with different initial names to test out the feature)</small>
-        <br>
-        <small>(You can fetch the contacts from a DB)</small>
+        <div class="padd-10">
+          <i class="fa fa-bars menu-splash" ng-click="menu()"></i>
+          <div class="splash-space"></div>
+          <img src="images/poster.png" alt="splash-poster" class="poster1 img-responsive">
+          <br>
+          <br>
+          <div class="demo-hd1">A Simple Chat with predefined contacts.</div>
+          <small>(Open in two browsers with different initial names to test out the feature)</small>
+          <br>
+          <small>(You can fetch the contacts from a DB)</small>
+        </div><!--padd-10-->
       </div><!--Initial right chat screen end-->
 
 

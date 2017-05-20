@@ -11,12 +11,14 @@ body {
 .container-fluid {
   padding: 0;
 }
+
 .row {
   margin-left: 0;
   margin-right: 0;
 }
-.ng-hide {
-  display: none;
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
 }
 
 .img-responsive {
@@ -33,6 +35,10 @@ body {
   width: 100%;
   text-align: center;
   top: 40%;
+}
+
+.padd-10 {
+  padding: 10px;
 }
 /*General end*/
 
