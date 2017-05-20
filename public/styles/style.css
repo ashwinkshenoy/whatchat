@@ -76,6 +76,7 @@ body {
   padding: 10px;
   /*box-shadow: 0px 1px 4px -1px #7b7b7b;*/
   border-radius: 0px;
+  border-bottom: solid 1px #ccc;
 }
 
 .bdr-right {
@@ -311,7 +312,9 @@ small {
   font-size: 15px;
   box-shadow: none;
   outline: none;
-  border-radius: 6px;
+  border-radius: 25px;
+  padding-left: 20px;
+  padding-top: 3px;
 }
 
 .chat-hr2 {
@@ -392,6 +395,17 @@ small {
     bottom: 0;
     width: 300px;
   }
+  .mob-fix-g1,
+  .mob-fix-g2 {
+    position: fixed;
+    z-index: 10;
+  }
+  .mob-fix-g1 {
+    width: 300px;
+  }
+  .mob-fix-g2 {
+    width: 100%;
+  }
   .chat-from,
   .chat-to {
     width: 70%;
@@ -403,6 +417,10 @@ small {
   .mob-chat,
   .mob-chat .white-chat-box {
     width: 100%;
+  }
+  .mob-contact .grey-hd2,
+  .mob-chat .white-chat-box {
+    top: 60px;
   }
   .mob-chat .send-div {
     left: 0;

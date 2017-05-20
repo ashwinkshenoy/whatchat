@@ -73,9 +73,8 @@ app.controller('AppCtrl', function ($scope, socket) {
         $scope.initName = $scope.contacts[i].name;
       }
     }
-    // $('#main-div').removeClass('hide');
 
-    // Contacts - last message and time
+    // Contacts - last message and time (testing)
     // var lastContact = [];
     // var lastContObj = {}
     // for(var i=0; i < $scope.contacts.length; i++) {
@@ -117,7 +116,6 @@ app.controller('AppCtrl', function ($scope, socket) {
   socket.on('updatechat', function (username, data, room) {
     var user = {};
     user.date = new Date().getTime();
-    console.log($scope.roomtotal);
     if(room == $scope.roomtotal) {
       user.username = username;
       user.message = data;
@@ -128,13 +126,13 @@ app.controller('AppCtrl', function ($scope, socket) {
         type = 'to';
       }
 
-      // history = [];
-      // if(localStorage.getItem(room) != null){
-      //   var pastHist = JSON.parse(localStorage.getItem(room));
-      //   for(var j=0; j<pastHist.length; j++) {
-      //     history.push(pastHist[j]);
-      //   }
-      // }
+      history = [];
+      if(localStorage.getItem($scope.roomtotal) != null){
+        var pastHist = JSON.parse(localStorage.getItem($scope.roomtotal));
+        for(var j=0; j<pastHist.length; j++) {
+          history.push(pastHist[j]);
+        }
+      }
 
       var b = {
         'message': data,
@@ -205,6 +203,9 @@ app.controller('AppCtrl', function ($scope, socket) {
         $scope.history = JSON.parse(localStorage.getItem($scope.roomtotal));
       }
     }
+    setTimeout(function(){
+      $('.white-chat-box').scrollTop($('.white-chat-box')[0].scrollHeight);
+    }, 0);
     $scope.chattingWith = mydata.username;
     $scope.currentUser = mydata.username;
     console.log(mydata);
@@ -212,6 +213,8 @@ app.controller('AppCtrl', function ($scope, socket) {
     // socket.emit('adduser', mydata);
   }
 
+
+  // on Post send chat
   $scope.doPost = function (message) {
     socket.emit('sendchat', message);
     $scope.message = '';
