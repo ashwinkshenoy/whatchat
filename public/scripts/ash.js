@@ -1,3 +1,5 @@
+// @ashwinkshenoy
+
 'use strict';
 
 var app = angular.module('myApp', []);
@@ -280,3 +282,4 @@ app.factory('socket', function ($rootScope) {
     }
   };
 });
+// @ashwinkshenoy

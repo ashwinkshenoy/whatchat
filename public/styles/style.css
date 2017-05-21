@@ -1,3 +1,4 @@
+/*@ashwinkshenoy*/
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Satisfy');
 
 /*General*/
@@ -330,6 +331,7 @@ small {
 }
 /* chat end */
 
+/*// @ashwinkshenoy*/
 
 /*Custom scroll*/
 .chat-scroll::-webkit-scrollbar-track {
@@ -464,3 +466,5 @@ small {
   color: #fb2323;
 }
 /*Demo end*/
+
+/*@ashwinkshenoy*/
