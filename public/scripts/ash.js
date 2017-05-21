@@ -58,6 +58,7 @@ app.controller('AppCtrl', function ($scope, socket) {
   var contactHistory = [];
   var type;
   $scope.users = [];
+  $scope.notify = [];
   $scope.currentUser = '';
   socket.on('connect', function () { });
 
@@ -73,25 +74,27 @@ app.controller('AppCtrl', function ($scope, socket) {
         $scope.initName = $scope.contacts[i].name;
       }
     }
+    // Contacts - notify (testing)
+    var lastContact = [];
+    var lastContObj = {}
+    var mydata = {};
+    for(var i=0; i < $scope.contacts.length; i++) {
+      var myroom = [];
+      if($scope.initRoom != $scope.contacts[i].id){
+        myroom.push($scope.initRoom);
+        myroom.push($scope.contacts[i].id);
+        // Sort myroom
+        myroom.sort(function(a, b){return a - b});
+        // Join myroom
+        var newRoom = myroom.join("");
+        lastContact.push(newRoom)
+        mydata.username = $scope.contacts[i].name;
+        mydata.room = newRoom;
+        socket.emit('createroom', mydata);
+      }
+    }
 
-    // Contacts - last message and time (testing)
-    // var lastContact = [];
-    // var lastContObj = {}
-    // for(var i=0; i < $scope.contacts.length; i++) {
-    //   var myroom = [];
-    //   if($scope.initRoom != $scope.contacts[i].room){
-    //     myroom.push($scope.initRoom);
-    //     myroom.push($scope.contacts[i].room);
-    //     // Sort myroom
-    //     myroom.sort(function(a, b){return a - b});
-    //     // Join myroom
-    //     var newRoom = myroom.join("");
-    //     lastContact.push(newRoom)
-    //   }
-    // }
-    // console.log(lastContact);
-
-    // Get message
+    // Get message (testing)
     // for(var i=0; i < $scope.contacts.length; i++) {
     //   if($scope.initRoom != $scope.contacts[i].room){
     //     console.log(lastContact[i]);
@@ -107,13 +110,12 @@ app.controller('AppCtrl', function ($scope, socket) {
     //     }
     //   }
     // }
-
   }
 
 
   // on Update
   // on send/receive chat
-  socket.on('updatechat', function (username, data, room) {
+  socket.on('updatechat', function (username, data, room, senderId) {
     var user = {};
     user.date = new Date().getTime();
     if(room == $scope.roomtotal) {
@@ -156,6 +158,10 @@ app.controller('AppCtrl', function ($scope, socket) {
       };
       history.push(b);
       localStorage.setItem(room, JSON.stringify(history));
+      // get senderId and notify in contacts if on different room
+      if ($scope.notify.indexOf(senderId) == -1) {
+        $scope.notify.push(senderId);
+      }
     }
   });
 
@@ -165,10 +171,12 @@ app.controller('AppCtrl', function ($scope, socket) {
     socket.emit('adduser', data);
   });
 
+
   // $scope.createRoom = function (data) {
   //   $scope.currentUser = data.username;
   //   socket.emit('createroom', data);
   // }
+
 
   // on Joining Room
   // $scope.currentUser
@@ -180,6 +188,10 @@ app.controller('AppCtrl', function ($scope, socket) {
     $scope.users = [];
     var myroom = [];
     $scope.selected = data;
+    // Notifiaction array update
+    if ($scope.notify.indexOf(data) != -1) {
+      $scope.notify.splice($scope.notify.indexOf(data), 1);
+    }
     for(var i=0; i<$scope.contacts.length; i++) {
       if($scope.contacts[i].id == data) {
         myroom.push($scope.initRoom);
@@ -208,7 +220,7 @@ app.controller('AppCtrl', function ($scope, socket) {
     }, 0);
     $scope.chattingWith = mydata.username;
     $scope.currentUser = mydata.username;
-    console.log(mydata);
+    // console.log(mydata);
     socket.emit('createroom', mydata);
     // socket.emit('adduser', mydata);
   }
@@ -216,9 +228,11 @@ app.controller('AppCtrl', function ($scope, socket) {
 
   // on Post send chat
   $scope.doPost = function (message) {
-    console.log(message);
+    var data = {};
+    data.message = message;
+    data.senderId = $scope.initRoom;
     if(message) {
-      socket.emit('sendchat', message);
+      socket.emit('sendchat', data);
       $scope.message = '';
       // $('.chat-txt-field').val('');
     }

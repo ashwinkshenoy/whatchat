@@ -85,6 +85,11 @@
                       <div class="chat-name-left" ng-bind="contact.name"></div>
                       <div class="chat-msg-left" ng-bind="contact.room"></div>
                     </div><!--col-xs-* end-->
+                    <div class="col-sm-3 text-right">
+                      <span ng-repeat="notifyy in notify">
+                        <span class="badge chat-badge" ng-show="notifyy == contact.id">N</span>
+                      </span>
+                    </div><!--col-sm-* end-->
                   </div><!--row end-->
                 </div><!--chat-person-->
               </a>

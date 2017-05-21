@@ -37,15 +37,20 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('createroom', function (data) {
-    var new_room = data.room;
-    rooms.push(new_room);
-    data.room = new_room;
-    // console.log('Room Created: '+new_room);
-    socket.emit('roomcreated', data);
+    if (rooms.indexOf(data.room) == -1) {
+      var new_room = data.room;
+      rooms.push(new_room);
+      data.room = new_room;
+      console.log('Room Created: '+new_room);
+      console.log(rooms);
+      socket.emit('roomcreated', data);
+    } else {
+      socket.emit('roomcreated', data);
+    }
   });
 
   socket.on('sendchat', function (data) {
-    io.sockets.in(socket.room).emit('updatechat', socket.username, data, socket.room);
+    io.sockets.in(socket.room).emit('updatechat', socket.username, data.message, socket.room, data.senderId);
   });
 
   socket.on('disconnect', function () {
