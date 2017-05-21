@@ -41,8 +41,8 @@ io.sockets.on('connection', function (socket) {
       var new_room = data.room;
       rooms.push(new_room);
       data.room = new_room;
-      console.log('Room Created: '+new_room);
-      console.log(rooms);
+      // console.log('Room Created: '+new_room);
+      // console.log(rooms);
       socket.emit('roomcreated', data);
     } else {
       socket.emit('roomcreated', data);
